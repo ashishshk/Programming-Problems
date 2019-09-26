@@ -1,0 +1,57 @@
+    def myAtoi(self, str):
+        """
+        :type str: str
+        :rtype: int
+        """
+          
+            
+        if str == "" or str == " ":
+            return 0 
+        validTypes = ['0','1','2','3','4','5','6','7','8','9','+','-']
+        num = []
+        finalNum = 0
+        flag = 0
+        
+        for i in range(len(str)):
+            if str[i] == " " and flag == 0:
+                continue
+            if str[i] not in validTypes and len(num) == 0:
+                return 0
+            elif str[i] not in validTypes and len(num) != 0:
+                break 
+             
+            elif flag == 1 and str[i] == " ":
+                break
+            elif flag == 1 and (str[i] == '-' or str[i] == "+"):
+                break
+            else:
+                num.append(str[i])
+                flag = 1
+        if len(num) == 0:
+            return 0
+        
+        if len(num) >= 2:
+            if (num[0] == '+' or num[0] == '-') and (num[1] == '+' or num[1] == '-'):
+                return 0
+                
+        if num[0] == '-' or num[0] == '+':
+            dummy = 1
+            for i in range(len(num)-1,0,-1):
+                finalNum += (dummy*int(num[i]))
+                dummy *= 10
+            if num[0] == '-':
+                
+                if finalNum * -1 < -(2**31):
+                    return -(2**31)
+                return finalNum * -1
+            if finalNum > (2**31) - 1:
+                return (2**31) - 1
+            return finalNum
+
+        dummy = 1
+        for i in range(len(num)-1,-1,-1):
+            finalNum += (dummy*int(num[i]))
+            dummy *= 10
+        if finalNum > (2**31) - 1:
+            return (2**31) - 1
+        return finalNum        
