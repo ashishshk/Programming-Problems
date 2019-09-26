@@ -1,0 +1,54 @@
+def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+        
+        if strs == [""]:
+            return [[""]]
+        
+        if len(strs) == 1:
+            return [[strs[0]]]
+        
+        strsCopy = []
+        strsCopy[:] = strs[:]
+        anagrams = []
+        group = []
+        groupIdxs = []
+        temp = {}
+        
+        for i in range(len(strs)):
+            strsCopy[i] = "".join(sorted(strsCopy[i]))
+
+        
+
+        flag = 0
+        
+        for i in range(len(strsCopy)):
+            if strsCopy[i] not in temp:
+                temp[i] = strsCopy[i]
+                
+        temp = sorted(temp.iteritems(), key = lambda x : x[1])
+        
+        for i in range(len(temp)-1):
+            if flag == 0:
+                group.append(temp[i][0])
+                flag = 1
+            if temp[i][1] == temp[i+1][1]:
+                group.append(temp[i+1][0])
+                if i+1 == len(temp)-1:
+                    anagrams.append(group)
+            else:
+                anagrams.append(group)
+                group = []
+                flag = 0
+                if i + 1 == len(temp)-1:
+                    anagrams.append([temp[i+1][0]])
+                continue  
+        print anagrams
+        
+        for i in range(len(anagrams)):
+            for j in range(len(anagrams[i])):
+                anagrams[i][j] = strs[anagrams[i][j]]
+                
+        return anagrams
