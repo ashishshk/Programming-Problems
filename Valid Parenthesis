@@ -1,0 +1,29 @@
+    def isValid(self, s):
+        """
+        :type s: str
+        :rtype: bool
+        """
+        if len(s) == 0:
+            return True
+        
+        expressionDict = {')':'(','}':'{',']':'['}
+        expressionStack = []
+        top = -1
+        flag = 0
+        for i in range(len(s)):
+            if s[i] == '(' or s[i] == '{' or s[i] == '[':
+                expressionStack.append(s[i])
+                top += 1
+                flag = 1
+                
+            if  s[i] == ')' or s[i] == '}' or s[i] == ']':
+                if len(expressionStack) > 0:
+                    if expressionStack[top] == expressionDict[s[i]]:
+                        del(expressionStack[top])
+                        top -= 1
+                    else:
+                        return False
+                else:
+                    return False
+
+        return len(expressionStack) == 0 and flag == 1
